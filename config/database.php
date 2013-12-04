@@ -2,8 +2,8 @@
 
 /* Setup database parameters */
 
-$database['host'] 				 = 'localhost';
-$database['database_name'] = 'hypermvc';
-$database['username'] 		 = 'root';
-$database['password'] 		 = 'an00biis';
+$database['host'] 				 = '';
+$database['database_name'] = '';
+$database['username'] 		 = '';
+$database['password'] 		 = '';
 $database['port'] 				 = 3306;
