@@ -1,6 +1,6 @@
 <?php
 
-require_once("router.php");
+require_once("core/router.php");
 
 try{ 
 	$index = new Router();

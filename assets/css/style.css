@@ -1,0 +1,45 @@
+body {
+	font-family: Verdana;
+	font-size: 14px;
+}
+
+p {
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.container {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.content {
+	width: 100%;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+	padding: 40px 10px 5px 10px !important;
+	background: white;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+	margin-top: 20px;
+}
+
+.text {
+	background-color: #d9edf7;
+}
+
+.warning {
+	background-color: #f2dede;
+}
+
+.footer{
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.footer img {
+	display: block;
+	margin: 0 auto;
+	padding-top: 10px;
+}

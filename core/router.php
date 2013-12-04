@@ -6,16 +6,33 @@ class Router{
 	protected $method;
 	protected $args;
 	
+	function __construct(){
+  	$http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+		$this->base_link = $_SERVER['HTTP_HOST'] . '/';
+		$this->base_url = $http . '://' . $_SERVER['HTTP_HOST'] . '/';
+		$this->root = realpath($_SERVER["DOCUMENT_ROOT"]).'/';
+	}
+	
 	function init(){
-		$this->get_url();	
+		$this->load_configs();	
+		$this->get_url();
 		$this->set_controller();
 		$this->set_method();
 		$this->set_args();
+		$this->prepare_view_loader();
+		$this->prepare_db_connection();
 		$this->load_models();
 		$this->load_helpers();
 		$content = new $this->controller;
 		$method = $this->method;
 		$content->$method($this->args);
+	}
+	
+	function load_configs(){
+		require_once($this->root.'config/load.php');
+		require($this->root.'config/paths.php');
+		$this->paths = $paths;
+		$this->load = $load;	
 	}
 	
 	function get_url(){
@@ -35,9 +52,10 @@ class Router{
 			 $this->controller = $this->url[0];
 		}
 		else{
-			$this->controller = 'get';
+			$this->controller = $this->load['controller'];
 		}
-		$this->file = 'controllers/'.strtolower($this->controller).'.php';
+		
+		$this->file = $this->paths['controllers'].strtolower($this->controller).'.php';
 		require_once($this->file);
 	}
 	
@@ -67,22 +85,35 @@ class Router{
 		}		
 	}
 	
+	function prepare_view_loader(){
+		$file = 'view';
+		$ext = '.php';
+		$path = $this->root.'core/';
+		require_once($path.$file.$ext);
+	}
+	
+	function prepare_db_connection(){
+		$file = 'database';
+		$ext = '.php';
+		$path = $this->root.'core/';
+		if($this->load['database']){
+			require_once($path.$file.$ext);
+		}			
+	}
+	
 	function load_models(){
-		$models = array('database', 'save', 'load');
-		$location = 'database/';
+		$models = $this->load['models'];
 		$ext = '.php';
 		foreach($models as $model){
-			require_once($location.$model.$ext);		
+			require_once($this->paths['models'].$model.$ext);		
 		}
 	}
 	
 	function load_helpers(){
-		$helpers = array('response', 'request');
-		$location = 'helpers/';
+		$helpers = $this->load['helpers']; 
 		$ext = '.php';
 		foreach($helpers as $helper){
-			require_once($location.$helper.$ext);		
+			require_once($this->paths['helpers'].$helper.$ext);		
 		}
 	}
-	
 }

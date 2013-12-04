@@ -9,12 +9,14 @@ class Database {
 	protected static $password;
 	protected static $port;
 	
-	static function set_connection($host, $dbname, $username, $password, $port = 3306){
-		self::$host = $host;
-		self::$dbname = $dbname;
-		self::$username = $username;
-		self::$password = $password;
-		self::$port = $port;
+	static function set_connection(){
+		$root = realpath($_SERVER["DOCUMENT_ROOT"]).'/';
+		require($root.'config/database.php');		
+		self::$host = $database['host'];
+		self::$dbname = $database['database_name'];
+		self::$username = $database['username'];
+		self::$password = $database['password'];
+		self::$port = $database['port'];
 	}
 
 	static function connect(){
@@ -27,6 +29,6 @@ class Database {
 	}	
 }
 
-# Set Database details based on config
-//Database::set_connection('localhost', 'rest', 'root', '');
 
+# Set Database details based on config
+Database::set_connection();
